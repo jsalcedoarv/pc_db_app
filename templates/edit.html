@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit PC Part</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='tempstyle.css') }}">
+</head>
+<body>
+    <div class="hero-container">
+        <h1>Edit PC Part</h1>
+        
+        <form action="{{ url_for('update_part', id=id) }}" method="POST" class="edit-form">
+            <label>Part Name:</label>
+            <input type="text" name="name" value="{{ part.name }}" required>
+            
+            <label>Part Type:</label>
+            <select name="part_type" required>
+                <option value="CPU" {% if part.part_type == 'CPU' %} selected {% endif %}>CPU</option>
+                <option value="CPU Cooler" {% if part.part_type == 'CPU Cooler' %} selected {% endif %}>CPU Cooler</option>
+                <option value="Motherboard" {% if part.part_type == 'Motherboard' %} selected {% endif %}>Motherboard</option>
+                <option value="RAM" {% if part.part_type == 'RAM' %} selected {% endif %}>RAM</option>
+                <option value="SSD" {% if part.part_type == 'SSD' %} selected {% endif %}>SSD</option>
+                <option value="HDD" {% if part.part_type == 'HDD' %} selected {% endif %}>HDD</option>
+                <option value="GPU" {% if part.part_type == 'GPU' %} selected {% endif %}>GPU</option>
+                <option value="Case" {% if part.part_type == 'Case' %} selected {% endif %}>Case</option>
+                <option value="PSU" {% if part.part_type == 'PSU' %} selected {% endif %}>PSU</option>
+            </select>
+
+            <label>Serial Number:</label>
+            <input type="text" name="serial_number" value="{{ part.serial_number }}" required>
+            
+            <label>Price:</label>
+            <input type="number" step="0.01" name="price" value="{{ part.price }}" required>
+            
+            <label>Audit Date:</label>
+            <input type="date" name="audit_date" value="{{ part.audit_date }}" required>
+            
+            <button type="submit" class="cta-button">Update</button>
+            <a href="{{ url_for('search_parts') }}" class="cta-button cancel-btn">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

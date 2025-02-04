@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search PC Parts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='tempstyle.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <!-- <li><a href="{{ url_for('add_part') }}">Add PC Part</a></li> -->
+            <li><a href="{{ url_for('index') }}">Available Parts</a></li>
+            <li><a href="{{ url_for('search_parts') }}">Search</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero-container">
+        <h1>Search PC Parts</h1>
+        <form action="{{ url_for('search_parts') }}" method="GET" class="search-form">
+            <input type="text" name="name" placeholder="Search by Name">
+            <input type="text" name="serial_number" placeholder="Search by Serial Number">
+
+            <select name="part_type">
+                <option value="">Select Part Type</option>
+                <option value="CPU">CPU</option>
+                <option value="CPU Cooler">CPU Cooler</option>
+                <option value="Motherboard">Motherboard</option>
+                <option value="RAM">RAM</option>
+                <option value="SSD">SSD</option>
+                <option value="HDD">HDD</option>
+                <option value="GPU">GPU</option>
+                <option value="Case">Case</option>
+                <option value="PSU">PSU</option>
+            </select>
+
+            <label for="audit_date">Audit Date:</label>
+            <input type="date" name="audit_date">
+
+            <button type="submit" class="cta-button">Search</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Serial Number</th>
+                    <th>Price</th>
+                    <th>Audit Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for part in parts %}
+                <tr>
+                    <td>{{ part.name }}</td>
+                    <td>{{ part.part_type }}</td>
+                    <td>{{ part.serial_number }}</td>
+                    <td>£{{ part.price }}</td>
+                    <td>{{ part.audit_date }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_page', id=part.id) }}" class="cta-button">Edit</a>
+                        <a href="{{ url_for('delete_part', id=part.id) }}" class="cta-button">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

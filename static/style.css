@@ -1,0 +1,174 @@
+/* Root Variables for Theming & Dynamic Colors */
+:root {
+    --primary-color: #28a745;
+    --primary-hover: #218838;
+    --danger-color: #dc3545;
+    --danger-hover: #c82333;
+    --info-color: #007bff;
+    --info-hover: #0056b3;
+    --neutral-color: #6c757d;
+    --neutral-hover: #545b62;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-radius: 10px;
+    --transition-speed: 0.3s ease-in-out;
+
+    /* Responsive Typography */
+    --font-size-base: 16px;
+    --font-size-large: 1.5rem;
+    --font-size-small: 0.9rem;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    font-size: var(--font-size-base);
+    transition: background-color var(--transition-speed);
+}
+
+/* Responsive Container */
+.container {
+    max-width: 90%;
+    width: 1920px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    font-size: var(--font-size-large);
+}
+
+/* Form Styles */
+.add-form, .edit-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: var(--font-size-small);
+}
+
+/* Buttons */
+button, .delete-btn, .edit-btns, .cancel-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-small);
+    transition: background-color var(--transition-speed);
+}
+
+button:hover { background: var(--primary-hover); }
+.delete-btn { background: var(--danger-color); }
+.delete-btn:hover { background: var(--danger-hover); }
+.edit-btns { background: var(--info-color); }
+.edit-btns:hover { background: var(--info-hover); }
+.cancel-btn { background: var(--neutral-color); }
+.cancel-btn:hover { background: var(--neutral-hover); }
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: var(--font-size-small);
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 🖥 PC/Laptop Screens (1024px and above) */
+@media screen and (min-width: 1024px) {
+    :root {
+        --font-size-base: 18px;
+        --font-size-large: 2rem;
+        --font-size-small: 1rem;
+    }
+
+    .container {
+        max-width: 90%;
+        padding: 30px;
+    }
+
+    table {
+        font-size: 1rem;
+    }
+
+    input, button {
+        font-size: 1rem;
+    }
+}
+
+/* 📱 Mobile Devices (Up to 480px) */
+@media screen and (max-width: 480px) {
+    :root {
+        --font-size-base: 11px;
+        --font-size-large: 1rem;
+        --font-size-small: 0.75rem;
+    }
+
+    .container {
+        padding: 10px;
+        width: 95%;
+    }
+
+    h1 {
+        font-size: var(--font-size-large);
+    }
+
+    .add-form, .edit-form {
+        flex-direction: column;
+    }
+
+    input, button {
+        width: 100%;
+    }
+}
+
+/* 📟 Tablets & Small Screens (481px - 1023px) */
+@media screen and (max-width: 1023px) {
+    :root {
+        --font-size-base: 14px;
+        --font-size-large: 1.2rem;
+        --font-size-small: 0.8rem;
+    }
+
+    .container {
+        width: 85%;
+        padding: 15px;
+    }
+}
+
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: var(--font-size-small);
+    background-color: white;
+    cursor: pointer;
+}
+
+/* Hover & Focus Effects */
+select:hover, select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}

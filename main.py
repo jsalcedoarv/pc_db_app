@@ -23,6 +23,22 @@ def index():
     parts_list = [{'id': key, **value} for key, value in parts.items()]
     return render_template('add.html', parts=parts_list)
 
+def generate_unique_id():
+    ref = db.reference('pc_parts')
+    parts = ref.get() or {}
+
+    # Extract existing numeric IDs and find the highest one
+    max_id = 0
+    for part in parts.values():
+        if 'id' in part and part['id'].startswith("GPZ") and part['id'][3:].isdigit():
+            num = int(part['id'][3:])
+            if num > max_id:
+                max_id = num
+
+    # Increment for the next part
+    new_id = f"GPZ{max_id + 1:05d}"
+    return new_id
+
 @app.route('/addpart', methods=['POST'])
 def add_part():
     name = request.form['name']
@@ -31,16 +47,20 @@ def add_part():
     price = float(request.form['price'])
     audit_date = request.form['audit_date']
 
+    unique_id = generate_unique_id()
+
     ref = db.reference('pc_parts')
     new_part_ref = ref.push()
     new_part_ref.set({
+        'id': unique_id,  # Unique ID is stored inside the data, not as the key
         'name': name,
         'part_type': part_type,
         'serial_number': serial_number,
         'price': price,
         'audit_date': audit_date
     })
-    return redirect(url_for('search_parts'))
+
+    return redirect(url_for('index'))
 
 @app.route('/delete/<id>')
 def delete_part(id):

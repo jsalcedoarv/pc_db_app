@@ -19,8 +19,7 @@
         <h1>Search PC Parts</h1>
         <form action="{{ url_for('search_parts') }}" method="GET" class="search-form">
             <input type="text" name="name" placeholder="Search by Name">
-            <input type="text" name="serial_number" placeholder="Search by Serial Number">
-
+            
             <select name="part_type">
                 <option value="">Select Part Type</option>
                 <option value="CPU">CPU</option>
@@ -33,7 +32,8 @@
                 <option value="Case">Case</option>
                 <option value="PSU">PSU</option>
             </select>
-
+            
+            <input type="text" name="serial_number" placeholder="Search by Serial Number">
             <label for="audit_date">Audit Date:</label>
             <input type="date" name="audit_date">
 

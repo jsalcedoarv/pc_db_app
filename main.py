@@ -113,4 +113,4 @@ def search_parts():
     return render_template('search.html', parts=filtered_parts)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='192.168.0.152')

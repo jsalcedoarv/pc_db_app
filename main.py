@@ -112,5 +112,118 @@ def search_parts():
 
     return render_template('search.html', parts=filtered_parts)
 
+@app.route('/build_pc', methods=['GET', 'POST'])
+def build_pc():
+    ref = db.reference('pc_parts')
+    available_parts = ref.get() or {}
+
+    # Organize parts by type
+    categorized_parts = {
+        'CPU': [], 'CPU Cooler': [], 'Motherboard': [], 'RAM': [],
+        'SSD': [], 'HDD': [], 'GPU': [], 'Case': [], 'PSU': []
+    }
+
+    for key, value in available_parts.items():
+        if value['part_type'] in categorized_parts:
+            categorized_parts[value['part_type']].append({'id': key, 'name': value['name'], 'serial_number': value['serial_number']})
+
+    if request.method == 'POST':
+        customer_details = {
+            'name': request.form.get('name', 'N/A'),
+            'address': request.form.get('address', 'N/A'),
+            'ebay_name': request.form.get('ebay_name', 'eBay User'),
+            'build_date': request.form.get('build_date', 'N/A'),
+            'tracking_number': request.form.get('tracking_number', 'Pending...'),
+            'sold': request.form.get('sold_for', 'N/A'),
+            'pcid': request.form.get('pcid', 'N/A')
+          
+        }
+
+        selected_parts = {}
+        for part_type, options in categorized_parts.items():
+            if part_type == 'RAM':  # Handle RAM separately
+                ram1_id = request.form.get('ram1')
+                ram2_id = request.form.get('ram2')
+
+                if ram1_id and ram1_id in available_parts:
+                    ram1_details = available_parts[ram1_id]
+                    selected_parts['RAM 1'] = {
+                        'id': ram1_id,
+                        'gpzid': ram1_details.get('id','Unknown'),
+                        'name': ram1_details.get('name', 'Unknown'),
+                        'part_type': ram1_details.get('part_type', 'Unknown'),
+                        'serial_number': ram1_details.get('serial_number', 'N/A'),
+                        'price': ram1_details.get('price', 0),
+                        'audit_date': ram1_details.get('audit_date', 'N/A')
+                    }
+
+                if ram2_id and ram2_id in available_parts:
+                    ram2_details = available_parts[ram2_id]
+                    selected_parts['RAM 2'] = {
+                        'id': ram2_id,
+                        'gpzid': ram2_details.get('id','Unknown'),
+                        'name': ram2_details.get('name', 'Unknown'),
+                        'part_type': ram2_details.get('part_type', 'Unknown'),
+                        'serial_number': ram2_details.get('serial_number', 'N/A'),
+                        'price': ram2_details.get('price', 0),
+                        'audit_date': ram2_details.get('audit_date', 'N/A')
+                    }
+            else:
+                part_id = request.form.get(part_type.lower().replace(' ', '_'))
+                if part_id and part_id in available_parts:
+                    part_details = available_parts[part_id]
+                    selected_parts[part_type] = {
+                        'id': part_id,
+                        'gpzid': part_details.get('id','Unknown'),
+                        'name': part_details.get('name', 'Unknown'),
+                        'part_type': part_details.get('part_type', 'Unknown'),
+                        'serial_number': part_details.get('serial_number', 'N/A'),
+                        'price': part_details.get('price', 0),
+                        'audit_date': part_details.get('audit_date', 'N/A')
+                    }
+
+        # Save selected parts and customer details to pc_builds
+        build_ref = db.reference('pc_builds')
+        new_build_ref = build_ref.push()
+        new_build_ref.set({'customer_details': customer_details, 'selected_parts': selected_parts})
+
+        # Remove selected parts from inventory
+        for part in selected_parts.values():
+            db.reference(f'pc_parts/{part["id"]}').delete()
+
+        return redirect(url_for('build_pc'))  # Reload after saving
+
+    return render_template('build.html', parts=categorized_parts)
+
+@app.route('/view_builds', methods=['GET'])
+def view_builds():
+    ref = db.reference('pc_builds')
+    builds = ref.get() or {}
+
+    builds_list = []
+    for build_id, build in builds.items():
+        customer_details = build.get('customer_details', {})
+        build_data = {
+            'build_id': build_id,
+            'pc_id': customer_details.get('pcid', 'N/A'),
+            'customer_name': customer_details.get('name', 'N/A'),
+            'ebay_name': customer_details.get('ebay_name', 'N/A'),
+            'sold_for': customer_details.get('sold', 'N/A'),
+            'build_date': customer_details.get('build_date', 'N/A')
+        }
+        builds_list.append(build_data)
+
+    return render_template('pc_list.html', builds=builds_list)
+
+@app.route('/build_details/<build_id>', methods=['GET'])
+def build_details(build_id):
+    ref = db.reference(f'pc_builds/{build_id}')
+    build = ref.get() or {}
+
+    customer_details = build.get('customer_details', {})
+    selected_parts = build.get('selected_parts', {})
+
+    return render_template('build_details.html', build_id=build_id, customer_details=customer_details, selected_parts=selected_parts)
+
 if __name__ == '__main__':
-    app.run(debug=True, host='192.168.0.152')
+    app.run(debug=True)

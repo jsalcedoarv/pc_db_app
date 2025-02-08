@@ -1,0 +1,131 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: var(--primary-color);
+    padding: 15px 0;
+    text-align: center;
+    z-index: 1000;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.navbar ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: var(--font-size-medium);
+}
+
+/* Root Variables for Theming & Dynamic Colors */
+:root {
+    --primary-color: #474d5742;
+    --primary-hover: #464a520c;
+    --cta-color: #ff9800;
+    --cta-hover: #e68900;
+    --background-color: #000000;
+    --text-color: white;
+    --container-bg: rgba(255, 255, 255, 0.1);
+    --border-radius: 15px;
+    --shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    --font-size-large: 2.5rem;
+    --font-size-medium: 1rem;
+    --font-size-small: 0.9rem;
+    --dropdown-bg: #222222;
+    --dropdown-text: white;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    background: var(--container-bg);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    max-width: 900px; /* Increased width */
+    margin: 100px auto;
+}
+
+h1 {
+    font-size: var(--font-size-large);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+label {
+    font-size: var(--font-size-medium);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--primary-color);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+select {
+    background: var(--dropdown-bg);
+    color: var(--dropdown-text);
+}
+
+button {
+    width: 100%;
+    margin-top: 50px;
+    padding: 10px 20px;
+    background: var(--cta-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-medium);
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: var(--cta-hover);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .container {
+        max-width: 95%;
+        padding: 20px;
+    }
+}

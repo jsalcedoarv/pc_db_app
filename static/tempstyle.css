@@ -1,48 +1,10 @@
-/* Navigation Bar */
-.navbar {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.navbar ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.navbar ul li {
-    display: inline;
-}
-
-.navbar ul li a {
-    text-decoration: none;
-    color: white;
-    font-size: var(--font-size-medium);
-    padding: 10px 20px;
-    transition: color 0.3s ease;
-}
-
-.navbar ul li a:hover {
-    color: var(--cta-color);
-}
-
 /* Root Variables for Theming & Dynamic Colors */
 :root {
-    --primary-color: #1e3c72;
-    --primary-hover: #2a5298;
+    --primary-color: #474d5742;
+    --primary-hover: #464a520c;
     --cta-color: #ff9800;
     --cta-hover: #e68900;
-    --background-gradient: linear-gradient(135deg, #1e3c72, #2a5298);
+    --background-color: #000000;
     --text-color: white;
     --container-bg: rgba(255, 255, 255, 0.1);
     --border-radius: 15px;
@@ -58,16 +20,43 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: var(--background-gradient);
+    background: var(--background-color);
     color: var(--text-color);
     text-align: center;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow-y: auto;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: var(--primary-color);
+    padding: 15px 0;
+    text-align: center;
+    z-index: 1000;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.navbar ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: var(--font-size-medium);
 }
 
 .hero-container {
@@ -75,16 +64,9 @@ body {
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    max-width: 1700px;
+    max-width: 500px;
     margin-bottom: 20px;
-}
-
-.add-form {
-    margin-bottom: 80px; /* Added space after the form */
-}
-
-.search-form {
-    margin-bottom: 80px; /* Added space after the form */
+    margin-top: 100px;
 }
 
 h1 {
@@ -99,7 +81,7 @@ p {
 
 .cta-button {
     display: inline-block;
-    padding: 12px 25px;
+    padding: 8px 18px;
     background: var(--cta-color);
     color: var(--text-color);
     font-size: var(--font-size-medium);
@@ -120,6 +102,9 @@ p {
     padding: 20px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
+    overflow-y: auto;
+    max-height: 70vh;
+    margin-top: 20px;
 }
 
 table {
@@ -141,6 +126,17 @@ th {
 tr:nth-child(even) {
     background: var(--table-row-bg);
 }
+
+/*Form padding*/
+
+.search-form {
+    margin-bottom: 80px; /* Added space after the form */
+}
+
+.add-form {
+    margin-bottom: 80px; /* Added space after the form */
+}
+
 
 /* Responsive Design */
 @media screen and (max-width: 480px) {

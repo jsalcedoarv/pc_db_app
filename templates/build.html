@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your PC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='build.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{{ url_for('index') }}">Available Parts</a></li>
+            <li><a href="{{ url_for('search_parts') }}">Search Parts</a></li>
+            <li><a href="{{ url_for('build_pc') }}">PC Build</a></li>
+            <li><a href="{{ url_for('view_builds') }}">Search Builds</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>PC Builder</h1>
+        
+        <form method="POST">
+            <h2>Customer Details</h2>
+
+            <label for="name">Name:</label>
+            <input type="text" name="name" required>
+
+            <label for="address">Address:</label>
+            <textarea name="address" rows="4" required></textarea>
+
+            <label for="ebay_name">eBay Name (Optional):</label>
+            <input type="text" name="ebay_name">
+
+            <label for="build_date">Build Date:</label>
+            <input type="date" name="build_date" required>
+
+            <label for="tracking_number">Tracking Number (Optional):</label>
+            <input type="text" name="tracking_number">
+
+            <label for="sold_for">Sold for (£):</label>
+            <input type="text" name="sold_for" required>
+
+            <label for="pcid">PCID:</label>
+            <input type="text" name="pcid" required>
+
+            <h2>PC Parts Selection</h2>
+            
+            <label for="cpu">CPU:</label>
+            <select name="cpu">
+                <option value="">Select CPU</option>
+                {% for part in parts['CPU'] %}
+                    <option value="{{ part.id }}">{{ part.name }} - SN: {{ part.serial_number }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="cpu_cooler">CPU Cooler:</label>
+            <select name="cpu_cooler">
+                <option value="">Select CPU Cooler</option>
+                {% for part in parts['CPU Cooler'] %}
+                    <option value="{{ part.id }}">{{ part.name }} - SN: {{ part.serial_number }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="motherboard">Motherboard:</label>
+            <select name="motherboard">
+                <option value="">Select Motherboard</option>
+                {% for part in parts['Motherboard'] %}
+                    <option value="{{ part.id }}">{{ part.name }} - SN: {{ part.serial_number }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="ram1">RAM Slot 1:</label>
+            <select name="ram1">
+                <option value="">Select RAM</option>
+                {% for part in parts['RAM'] %}
+                    <option value="{{ part.id }}">{{ part.name }} - SN: {{part.serial_number}}</option>
+                {% endfor %}
+            </select>
+
+            <label for="ram2">RAM Slot 2:</label>
+            <select name="ram2">
+                <option value="">Select RAM</option>
+                {% for part in parts['RAM'] %}
+                    <option value="{{ part.id }}">{{ part.name }} - SN: {{ part.serial_number }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="ssd">SSD:</label>
+            <select name="ssd">
+                <option value="">Select SSD</option>
+                {% for part in parts['SSD'] %}
+                    <option value="{{ part.id }}">{{ part.name }} - SN: {{ part.serial_number }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="hdd">HDD:</label>
+            <select name="hdd">
+                <option value="">Select HDD</option>
+                {% for part in parts['HDD'] %}
+                    <option value="{{ part.id }}">{{ part.name }} - SN: {{ part.serial_number }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="gpu">GPU:</label>
+            <select name="gpu">
+                <option value="">Select GPU</option>
+                {% for part in parts['GPU'] %}
+                    <option value="{{ part.id }}">{{ part.name }} - SN: {{ part.serial_number }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="case">Case:</label>
+            <select name="case">
+                <option value="">Select Case</option>
+                {% for part in parts['Case'] %}
+                    <option value="{{ part.id }}">{{ part.name }} - SN: {{ part.serial_number }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="psu">Power Supply (PSU):</label>
+            <select name="psu">
+                <option value="">Select PSU</option>
+                {% for part in parts['PSU'] %}
+                    <option value="{{ part.id }}">{{ part.name }} - SN: {{ part.serial_number }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Save Build</button>
+        </form>
+    </div>
+</body>
+</html>

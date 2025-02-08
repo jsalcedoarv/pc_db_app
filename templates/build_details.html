@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='tempstyle.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{{ url_for('index') }}">Available Parts</a></li>
+            <li><a href="{{ url_for('search_parts') }}">Search Parts</a></li>
+            <li><a href="{{ url_for('build_pc') }}">PC Build</a></li>
+            <li><a href="{{ url_for('view_builds') }}">Search Builds</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero-container">
+        <h1>Build Details</h1>
+        <h2>Customer Details</h2>
+        <p style="font-size: small;"><strong>Customer Name:</strong> {{ customer_details.name }}</p>
+        <p style="font-size: small;"><strong>eBay Name:</strong> {{ customer_details.ebay_name }}</p>
+        <p style="font-size: small;"><strong>PCID:</strong> {{ customer_details.pcid }}</p>
+        <p style="font-size: small;"><strong>Sold For:</strong> £{{ customer_details.sold }}</p>
+        <p style="font-size: small;"><strong>Build Date:</strong> {{ customer_details.build_date }}</p>
+        <p style="font-size: small;"><strong>Address:</strong> {{ customer_details.address }}</p>
+        <p style="font-size: small;"><strong>Tracking Number:</strong> {{ customer_details.tracking_number }}</p>
+
+        <h2 style="margin-top: 50px;">Selected Parts</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Part Type</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Serial Number</th>
+                    <th>Audit Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for part_type, part in selected_parts.items() %}
+                <tr>
+                    <td>{{ part_type }}</td>
+                    <td>{{ part.name }}</td>
+                    <td>£{{ part.price }}</td>
+                    <td>{{ part.serial_number }}</td>
+                    <td>{{ part.audit_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

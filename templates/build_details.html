@@ -19,13 +19,17 @@
     <div class="hero-container">
         <h1>Build Details</h1>
         <h2>Customer Details</h2>
+        <p style="font-size: small;"><strong>PCID:</strong> {{ customer_details.pcid }}</p>
         <p style="font-size: small;"><strong>Customer Name:</strong> {{ customer_details.name }}</p>
         <p style="font-size: small;"><strong>eBay Name:</strong> {{ customer_details.ebay_name }}</p>
-        <p style="font-size: small;"><strong>PCID:</strong> {{ customer_details.pcid }}</p>
-        <p style="font-size: small;"><strong>Sold For:</strong> £{{ customer_details.sold }}</p>
+        <p style="font-size: small;"><strong>Sold For:</strong> £{{ "%.2f"|format(customer_details.sold|float) }}</p>
         <p style="font-size: small;"><strong>Build Date:</strong> {{ customer_details.build_date }}</p>
         <p style="font-size: small;"><strong>Address:</strong> {{ customer_details.address }}</p>
         <p style="font-size: small;"><strong>Tracking Number:</strong> {{ customer_details.tracking_number }}</p>
+
+        <a href="{{ url_for('update_customer', build_id=build_id) }}" class="cta-button">
+            Edit Customer
+        </a>
 
         <h2 style="margin-top: 50px;">Selected Parts</h2>
         <table>
@@ -43,13 +47,17 @@
                 <tr>
                     <td>{{ part_type }}</td>
                     <td>{{ part.name }}</td>
-                    <td>£{{ part.price }}</td>
+                    <td>£{{ "%.2f"|format(part.price|float) }}</td>
                     <td>{{ part.serial_number }}</td>
                     <td>{{ part.audit_date }}</td>
                 </tr>
+                {% set total_cost = total_cost + part.price  %}
                 {% endfor %}
             </tbody>
         </table>
+        <h3 style="margin-top: 20px;">Total Build Cost: £{{ "%.2f"|format(total_cost|float) }}</h3>
+        {% set profit = customer_details.sold|float - total_cost|float %}
+        <h4 style="margin-top: 60px; font-size: 3rem;"> Profit £{{ "%.2f"|format(profit) }}</h4>
     </div>
 </body>
 </html>

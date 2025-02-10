@@ -33,7 +33,7 @@
                 <tr>
                     <td>{{ build.pc_id }}</td>
                     <td>{{ build.customer_name }} ({{ build.ebay_name }})</td>
-                    <td>£{{ build.sold_for }}</td>
+                    <td>£{{ "%.2f"|format(build.sold_for|float) }}</td>
                     <td>{{ build.build_date }}</td>
                     <td><a href="/build_details/{{ build.build_id }}" class="cta-button">View Details</a></td>
                 </tr>

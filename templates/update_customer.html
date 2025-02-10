@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Customer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='build.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Customer Information</h1>
+        <form method="POST">
+            <label for="pcid">PCID:</label>
+            <input type="text" name="pcid" value="{{ customer_details.pcid }}" required>
+
+            <label for="name">Customer Name:</label>
+            <input type="text" name="name" value="{{ customer_details.name }}" required>
+
+            <label for="ebay_name">eBay Name:</label>
+            <input type="text" name="ebay_name" value="{{ customer_details.ebay_name }}">
+
+            <label for="sold_for">Sold For (£):</label>
+            <input type="number" name="sold_for" step="0.01" value="{{ customer_details.sold }}" required>
+
+            <label for="build_date">Build Date:</label>
+            <input type="date" name="build_date" value="{{ customer_details.build_date }}">
+
+            <label for="address">Address:</label>
+            <textarea name="address" rows="4">{{ customer_details.address }}</textarea>
+
+            <label for="tracking_number">Tracking Number:</label>
+            <input type="text" name="tracking_number" value="{{ customer_details.tracking_number }}">
+
+            <button style="margin-top: 50px;" type="submit">Update Customer</button>
+
+            <a href="{{ url_for('build_details', build_id=build_id) }}">
+                <button style="background-color: red; color: white; margin-top: 10px;">
+                    Cancel
+                </button>
+            </a>
+
+            
+        </form>
+    </div>
+</body>
+</html>

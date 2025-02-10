@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit PC Part</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='tempstyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='build.css') }}">
 </head>
 <body>
-    <div class="hero-container">
+    <div class="container">
         <h1>Edit PC Part</h1>
         
         <form action="{{ url_for('update_part', id=id) }}" method="POST" class="edit-form">
@@ -33,14 +33,21 @@
             <label>Serial Number:</label>
             <input type="text" name="serial_number" value="{{ part.serial_number }}" required>
             
-            <label>Price:</label>
+            <label>Price (£):</label>
             <input type="number" step="0.01" name="price" value="{{ part.price }}" required>
             
             <label>Audit Date:</label>
             <input type="date" name="audit_date" value="{{ part.audit_date }}" required>
+
+            <label for="part_note">Notes:</label>
+            <textarea name="part_note" rows="4">{{ part.part_note }}</textarea>
             
             <button type="submit" class="cta-button">Update</button>
-            <a href="{{ url_for('search_parts') }}" class="cta-button cancel-btn">Cancel</a>
+            <a href="{{ url_for('search_parts') }}">
+                <button style="background-color: red; color: white; margin-top: 10px;">
+                    Cancel
+                </button>
+            </a>
         </form>
     </div>
 </body>

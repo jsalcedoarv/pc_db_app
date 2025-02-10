@@ -107,7 +107,6 @@ select {
 
 button {
     width: 100%;
-    margin-top: 50px;
     padding: 10px 20px;
     background: var(--cta-color);
     color: var(--text-color);

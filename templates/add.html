@@ -60,7 +60,7 @@
                     <td>{{ part.name }}</td>
                     <td>{{ part.part_type }}</td>
                     <td>{{ part.serial_number }}</td>
-                    <td>£{{ part.price }}</td>
+                    <td>£{{ "%.2f"|format(part.price|float) }}</td>
                     <td>{{ part.audit_date }}</td>
                 </tr>
                 {% endfor %}

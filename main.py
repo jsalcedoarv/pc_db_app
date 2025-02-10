@@ -46,6 +46,7 @@ def add_part():
     serial_number = request.form['serial_number']
     price = float(request.form['price'])
     audit_date = request.form['audit_date']
+    part_note = str("")
 
     unique_id = generate_unique_id()
 
@@ -57,7 +58,8 @@ def add_part():
         'part_type': part_type,
         'serial_number': serial_number,
         'price': price,
-        'audit_date': audit_date
+        'audit_date': audit_date,
+        'part_note': part_note,
     })
 
     return redirect(url_for('index'))
@@ -84,7 +86,8 @@ def update_part(id):
         'part_type': request.form['part_type'],
         'serial_number': request.form['serial_number'],
         'price': float(request.form['price']),
-        'audit_date': request.form['audit_date']
+        'audit_date': request.form['audit_date'],
+        'part_note': request.form['part_note']
     })
     return redirect(url_for('search_parts'))
 
@@ -134,7 +137,7 @@ def build_pc():
             'ebay_name': request.form.get('ebay_name', 'eBay User'),
             'build_date': request.form.get('build_date', 'N/A'),
             'tracking_number': request.form.get('tracking_number', 'Pending...'),
-            'sold': request.form.get('sold_for', 'N/A'),
+            'sold': float(request.form.get('sold_for', 0) or 0),
             'pcid': request.form.get('pcid', 'N/A')
           
         }
@@ -154,7 +157,8 @@ def build_pc():
                         'part_type': ram1_details.get('part_type', 'Unknown'),
                         'serial_number': ram1_details.get('serial_number', 'N/A'),
                         'price': ram1_details.get('price', 0),
-                        'audit_date': ram1_details.get('audit_date', 'N/A')
+                        'audit_date': ram1_details.get('audit_date', 'N/A'),
+                        'part_note': part_details.get('part_note', 'N/A')
                     }
 
                 if ram2_id and ram2_id in available_parts:
@@ -166,7 +170,8 @@ def build_pc():
                         'part_type': ram2_details.get('part_type', 'Unknown'),
                         'serial_number': ram2_details.get('serial_number', 'N/A'),
                         'price': ram2_details.get('price', 0),
-                        'audit_date': ram2_details.get('audit_date', 'N/A')
+                        'audit_date': ram2_details.get('audit_date', 'N/A'),
+                        'part_note': part_details.get('part_note', 'N/A')
                     }
             else:
                 part_id = request.form.get(part_type.lower().replace(' ', '_'))
@@ -179,7 +184,8 @@ def build_pc():
                         'part_type': part_details.get('part_type', 'Unknown'),
                         'serial_number': part_details.get('serial_number', 'N/A'),
                         'price': part_details.get('price', 0),
-                        'audit_date': part_details.get('audit_date', 'N/A')
+                        'audit_date': part_details.get('audit_date', 'N/A'),
+                        'part_note': part_details.get('part_note', 'N/A')
                     }
 
         # Save selected parts and customer details to pc_builds
@@ -223,7 +229,34 @@ def build_details(build_id):
     customer_details = build.get('customer_details', {})
     selected_parts = build.get('selected_parts', {})
 
-    return render_template('build_details.html', build_id=build_id, customer_details=customer_details, selected_parts=selected_parts)
+    total_cost = sum(part["price"] for part in selected_parts.values())
+
+    return render_template('build_details.html', build_id=build_id, customer_details=customer_details, selected_parts=selected_parts, total_cost=total_cost)
+
+@app.route('/update_customer/<build_id>', methods=['GET', 'POST'])
+def update_customer(build_id):
+    ref = db.reference(f'pc_builds/{build_id}/customer_details')  # Reference customer details
+    customer_details = ref.get()  # Fetch current customer details
+
+    if not customer_details:
+        return "Customer not found", 404
+
+    if request.method == 'POST':
+        # Get updated details from form input
+        updated_data = {
+            'pcid': request.form.get('pcid', ''),
+            'name': request.form.get('name', ''),
+            'ebay_name': request.form.get('ebay_name', ''),
+            'sold': float(request.form.get('sold_for', 0)),  # Ensure float type
+            'build_date': request.form.get('build_date', ''),
+            'address': request.form.get('address', ''),
+            'tracking_number': request.form.get('tracking_number', ''),
+        }
+
+        ref.update(updated_data)  # Update in Firebase
+        return redirect(url_for('build_details', build_id=build_id))  # Redirect back to build details
+
+    return render_template('update_customer.html', customer_details=customer_details, build_id=build_id)
 
 if __name__ == '__main__':
     app.run(debug=True)

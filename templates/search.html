@@ -19,8 +19,8 @@
     <div class="hero-container">
         <h1>Search PC Parts</h1>
         <form action="{{ url_for('search_parts') }}" method="GET" class="search-form">
+            <input type="text" name="id" placeholder="Search by GPZID">
             <input type="text" name="name" placeholder="Search by Name">
-            
             <select name="part_type">
                 <option value="">Select Part Type</option>
                 <option value="CPU">CPU</option>

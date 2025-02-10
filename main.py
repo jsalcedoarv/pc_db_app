@@ -94,6 +94,7 @@ def update_part(id):
 # Route for searching PC parts
 @app.route('/search', methods=['GET'])
 def search_parts():
+    query_id = request.args.get('id', '').strip().lower()
     query_name = request.args.get('name', '').strip().lower()
     query_serial = request.args.get('serial_number', '').strip().lower()
     query_part_type = request.args.get('part_type', '').strip()
@@ -104,12 +105,13 @@ def search_parts():
 
     filtered_parts = []
     for key, value in parts.items():
+        id_match = query_id in value.get('id', '').lower() if query_id else True
         name_match = query_name in value.get('name', '').lower() if query_name else True
         serial_match = query_serial in value.get('serial_number', '').lower() if query_serial else True
         type_match = value.get('part_type') == query_part_type if query_part_type else True
         date_match = value.get('audit_date') == query_audit_date if query_audit_date else True
 
-        if name_match and serial_match and type_match and date_match:
+        if id_match and name_match and serial_match and type_match and date_match:
             value['id'] = key
             filtered_parts.append(value)
 

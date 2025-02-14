@@ -39,7 +39,7 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Serial Number</th>
-                    <th>Audit Date</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,9 +49,13 @@
                     <td>{{ part.name }}</td>
                     <td>£{{ "%.2f"|format(part.price|float) }}</td>
                     <td>{{ part.serial_number }}</td>
-                    <td>{{ part.audit_date }}</td>
+                    <td>
+                        <a href="{{ url_for('replace_part', build_id=build_id, part_type=part_type) }}" class="cta-button">
+                            Replace
+                        </a>
+                    </td>
                 </tr>
-                {% set total_cost = total_cost + part.price  %}
+                {% set total_cost = total_cost + part.price %}
                 {% endfor %}
             </tbody>
         </table>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replace Part</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='tempstyle.css') }}">
+</head>
+<body>
+    <div class="hero-container">
+        <h1>Replace Part in Build</h1>
+        <h2>Current Part Details</h2>
+        <p><strong>Part Type:</strong> {{ part_type }}</p>
+        <p><strong>Part Name:</strong> {{ old_part.name }}</p>
+        <p><strong>Serial Number:</strong> {{ old_part.serial_number }}</p>
+        <p><strong>Price:</strong> £{{ "%.2f"|format(old_part.price|float) }}</p>
+        <p><strong>Audit Date:</strong> {{ old_part.audit_date }}</p>
+
+        <form method="POST" action="{{ url_for('replace_part', build_id=build_id, part_type=part_type) }}">
+            <input type="hidden" name="build_id" value="{{ build_id }}">
+            <input type="hidden" name="part_type" value="{{ part_type }}">
+            <input type="hidden" name="old_part_id" value="{{ old_part.id }}">
+        
+            <label for="new_part_id">Select New Part:</label>
+            <select name="new_part_id" id="new_part_id" required>
+                <option value="">-- Select New Part --</option>
+                {% for key, part in available_parts %}
+                    <option value="{{ key }}">{{ part.name }} ({{ part.serial_number }}) - £{{ "%.2f"|format(part.price|float) }}</option>
+                {% endfor %}
+            </select>
+        
+            <button type="submit" class="cta-button">Replace Part</button>
+        </form>
+    </div>
+</body>
+</html>
